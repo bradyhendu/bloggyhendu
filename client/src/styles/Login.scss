@@ -1,0 +1,34 @@
+
+.login-box{
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    font-family: var(--font-base);
+    font-size: 1.5rem;
+    font-weight: 500;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+
+    button{
+        background-color: var(--primary-color);
+        color: var(--accent-color);
+        font-family: var(--font-base);
+        font-size: 1.5rem;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+        &:hover{
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+    }
+    a{
+        color: var(--accent-color);
+        font-family: var(--font-base);
+        text-decoration: none;
+        margin: 0 1rem;
+        font-size: 1.5rem;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+        &:hover{
+            color: var(--primary-color);
+        }
+    }
+}
