@@ -1,16 +1,14 @@
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+
 .navbar-content{
     background-color: var(--bg-color);
     display:flex;
     justify-content: space-between;
     align-items:center;
+    flex-direction: row;
     width:100%;
-
-    .navbar-right{
-        margin: 0 1rem;
-        flex:1;
-        justify-content:flex-end;
-        align-items:row;
-    }
     
     a{
         color: var(--accent-color);
@@ -24,6 +22,14 @@
             color: var(--primary-color);
         }
     }
+
+    @include media-breakpoint-up(md) { 
+        .navbar-right{
+            margin: 0 rem;
+            justify-content: flex-end;
+            align-items: row;
+        }
+     }
 
 
 }
