@@ -3,13 +3,10 @@
 :root {
   --font-base: 'Odibee Sans', sans-serif;
 
-  --primary-color: #edf2f8;
-  --secondary-color: #313bac;
-  --black-color: #030303;
-  --lightGray-color: #e4e4e4;
-  --gray-color: #6b7688;
-  --brown-color: #46364a;
-  --white-color: #ffffff;
+  --primary-color: #6A704C;
+  --bg-color: #EDE1D1;
+  --accent-color: #412E27;
+  --sand-color: #EABDA8; 
 }
 
 body {
