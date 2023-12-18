@@ -9,7 +9,7 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-md navbar-light navbar-content">
         <div className='container-fluid'>
-            <a className="navbar-brand" href="#">
+            <a className="navbar-brand" href="/">
                 <img src={logo} width="125" height="30" alt="" />
             </a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,8 +18,8 @@ const NavBar = () => {
 
             <div className="collapse navbar-collapse navbar-right" id="navbarNav">
                 <div className="navbar-nav">
-                    <a className="nav-link" aria-current="page" href="#">Login</a>
-                    <a className="nav-link" href="#">Register</a>
+                    <a className="nav-link" aria-current="page" href="/login">Login</a>
+                    <a className="nav-link" href="/register">Register</a>
                 </div>
             </div>
         </div>
