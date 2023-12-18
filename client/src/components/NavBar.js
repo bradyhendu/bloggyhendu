@@ -1,26 +1,28 @@
 import React from 'react'
 import logo from '../images/logo.png'
+import '../styles/NavBar.scss'
 
 const NavBar = () => {
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
+    <nav className="navbar navbar-expand-md navbar-light navbar-content">
+        <a className="navbar-brand" href="#">
             <img src={logo} width="125" height="30" alt="" />
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
+        <div className="collapse navbar-collapse navbar-right" id="navbarNav">
+            <ul className="navbar-nav">
+                <li className="nav-item">
+                    <a className="nav-link" href="#">Login</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href="#">Register</a>
+                </li>
             </ul>
         </div>
+
     </nav>
   )
 }

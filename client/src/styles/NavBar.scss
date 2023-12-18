@@ -1,0 +1,30 @@
+.navbar-content{
+    background-color: var(--bg-color);
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    width:100%;
+
+    .navbar-right{
+        margin: 0 1rem;
+        flex:1;
+        justify-content:flex-end;
+        align-items:row;
+    }
+    
+    a{
+        color: var(--accent-color);
+        font-family: var(--font-base);
+        text-decoration: none;
+        margin: 0 1rem;
+        font-size: 1.5rem;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+        &:hover{
+            color: var(--primary-color);
+        }
+    }
+
+
+}
+
