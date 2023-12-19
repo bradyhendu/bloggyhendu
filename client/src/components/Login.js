@@ -7,7 +7,9 @@ const Login = () => {
         <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
             <div className=' col-6 d-flex justify-content-center align-items-center login-box rounded-4 '>
                 <form className='d-flex flex-column'>
-                    <h1 className="text-center">Login</h1>
+                    <h1 className="text-center my-2">Login</h1>
+                    <small className="text-center">Please enter your username and password</small>
+                    <hr className="w-100" />
                     <input type="text" placeholder="Username" className="form-control my-3 " />
                     <input type="password" placeholder="Password" className="form-control my-3" />
                     <button className="btn custom-bg my-3">Login</button>
