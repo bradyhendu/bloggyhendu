@@ -49,8 +49,7 @@ const Register = () => {
                     <p className="text-center">Already have an account? <a href="/login">Login</a></p>
                 </form>
             </div>
-            <div id='bottom'>
-            </div>    
+            <div id='bottom'></div>    
             {
                 error && 
                 <div className="alert alert-danger my-3" role="alert" id='error'>
