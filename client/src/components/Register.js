@@ -13,30 +13,24 @@ const Register = () => {
 
   async function register(e) {
     e.preventDefault();
-    try{
-        const response = await fetch('http://localhost:4000/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({username, password, firstName, lastName, email})
-        });
+      const response = await fetch('http://localhost:4000/register', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({username, password, firstName, lastName, email})
+      });
 
-        console.log(response);
-
-
-    } catch(err){ //TODO: handle errors
-        if(!err?.response){
-            setError('Something went wrong');
-        } else if (err.response.status === 400){
-            setError('Bad response');
-        } else if (err.response.status === 500){
-            setError('Something went wrong');
-        } else {
-            setError('Something went wrong');
-        }
+      if(response.status === 200){
+          window.location.href = '/login';
+      } else if (response.status === 400){
+          setError('Username or email already exists');
+          document.getElementById('bottom').scrollIntoView({behavior: "smooth"});
+      } else {
+          setError('Something went wrong');
+          document.getElementById('bottom').scrollIntoView({behavior: "smooth"});
+      }
     }
-  }
 
   return (
     <>
@@ -55,9 +49,11 @@ const Register = () => {
                     <p className="text-center">Already have an account? <a href="/login">Login</a></p>
                 </form>
             </div>
+            <div id='bottom'>
+            </div>    
             {
                 error && 
-                <div class="alert alert-danger my-3" role="alert">
+                <div className="alert alert-danger my-3" role="alert" id='error'>
                     {error}
                 </div>
             }
