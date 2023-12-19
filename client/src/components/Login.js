@@ -5,6 +5,7 @@ const Login = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   async function login(e) {
     e.preventDefault();
@@ -15,10 +16,19 @@ const Login = () => {
       },
       body: JSON.stringify({username, password})
     });
+    if(response.status === 200){
+      window.location.href = '/';
+    } else if (response.status === 401){
+      setError('Invalid credentials');
+      document.getElementById('bottom').scrollIntoView({behavior: "smooth"});
+    } else {
+      setError('Something went wrong');
+      document.getElementById('bottom').scrollIntoView({behavior: "smooth"});
+    }
   }
   return (
     <>
-        <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
+        <div className="container-fluid d-flex justify-content-center align-items-center flex-column vh-100">
             <div className=' col-6 d-flex justify-content-center align-items-center login-box rounded-4 '>
                 <form className='d-flex flex-column' onSubmit={login}>
                     <h1 className="text-center my-2">Login</h1>
@@ -30,6 +40,13 @@ const Login = () => {
                     <p className="text-center">Don't have an account? <a href="/register">Register</a></p>
                 </form>
             </div>
+            <div id='bottom'> </div> 
+            {
+                error && 
+                <div className="alert alert-danger my-3" role="alert" id='error'>
+                    {error}
+                </div>
+            }
         </div>
     </>
   )
