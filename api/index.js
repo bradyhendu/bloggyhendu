@@ -28,6 +28,25 @@ app.post('/register', async (req, res) => {
     }
 });
 
+app.post('/login', async (req, res) => {
+    const {username, password} = req.body;
+    try{
+        const userDoc = await UserModel.findOne({username});
+        if(userDoc){
+            const isValid = bcrypt.compareSync(password, userDoc.password);
+            if(isValid){
+                res.json({message: 'Login successful'});
+            } else {
+                res.status(401).json({message: 'Invalid credentials'});
+            }
+        } else {
+            res.status(401).json({message: 'Invalid credentials'});
+        }
+    } catch(err) {
+        res.status(500).json({message: 'Something went wrong'});
+    }
+});
+
 app.listen(4000);
 
 //blogAdmin
