@@ -1,4 +1,7 @@
 import React, {useState} from 'react'
+import Cookies from 'js-cookie';
+
+
 import '../styles/Login.scss'
 
 const Login = () => {
@@ -6,6 +9,8 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const token = Cookies.get('token');
 
   async function login(e) {
     e.preventDefault();
@@ -29,26 +34,34 @@ const Login = () => {
   }
   return (
     <>
-        <div className="container-fluid d-flex justify-content-center align-items-center flex-column vh-100">
-            <div className=' col-6 d-flex justify-content-center align-items-center login-box rounded-4 '>
-                <form className='d-flex flex-column' onSubmit={login}>
-                    <h1 className="text-center my-2">Login</h1>
-                    <small className="text-center">Please enter your username and password</small>
-                    <hr className="w-100" />
-                    <input type="text" placeholder="Username" value={username} className="form-control my-3 " onChange={e => setUsername(e.target.value)}/>
-                    <input type="password" placeholder="Password" value={password} className="form-control my-3" onChange={e => setPassword(e.target.value)}/>
-                    <button className="btn custom-bg my-3">Login</button>
-                    <p className="text-center">Don't have an account? <a href="/register">Register</a></p>
-                </form>
+        {
+            token ? (
+            <div className="alert alert-danger my-3" role="alert" id='error'>
+                You are already logged in
             </div>
-            <div id='bottom'> </div> 
-            {
-                error && 
-                <div className="alert alert-danger my-3" role="alert" id='error'>
-                    {error}
+            ) : (
+              <div className="container-fluid d-flex justify-content-center align-items-center flex-column vh-100">
+                <div className=' col-6 d-flex justify-content-center align-items-center login-box rounded-4 '>
+                    <form className='d-flex flex-column' onSubmit={login}>
+                        <h1 className="text-center my-2">Login</h1>
+                        <small className="text-center">Please enter your username and password</small>
+                        <hr className="w-100" />
+                        <input type="text" placeholder="Username" value={username} className="form-control my-3 " onChange={e => setUsername(e.target.value)}/>
+                        <input type="password" placeholder="Password" value={password} className="form-control my-3" onChange={e => setPassword(e.target.value)}/>
+                        <button className="btn custom-bg my-3">Login</button>
+                        <p className="text-center">Don't have an account? <a href="/register">Register</a></p>
+                    </form>
                 </div>
-            }
-        </div>
+                <div id='bottom'> </div> 
+                {
+                    error && 
+                    <div className="alert alert-danger my-3" role="alert" id='error'>
+                        {error}
+                    </div>
+                }
+              </div>
+            )
+        }
     </>
   )
 }
