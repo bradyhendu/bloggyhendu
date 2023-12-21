@@ -5,6 +5,8 @@ const app = express();
 const UserModel = require('./models/User');
 const bcrypt = require('bcrypt');
 const saltRounds = 10; 
+const jwt = require('jsonwebtoken');
+const secretKey = 'secretKeybutlikeSUPERSECRETlikeyoudontevenknow';
 
 
 
@@ -18,7 +20,13 @@ app.post('/register', async (req, res) => {
     const {username, password, firstName, lastName, email} = req.body;
     try{
         const userDoc = await UserModel.create({username, password:bcrypt.hashSync(password, saltRounds), firstName, lastName, email});
-        res.json(userDoc);
+        jwt.sign({username, id:userDoc._id, password, firstName, lastName, email}, secretKey, (err, token) => {
+            if(err){
+                res.status(500).json({message: 'Something went wrong'});
+            } else {
+                res.json({token});
+            }
+        });
     } catch(err) {
         if(err.code === 11000){
             res.status(400).json({message: 'Username or email already exists'});
