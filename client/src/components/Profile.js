@@ -36,7 +36,7 @@ const Profile = () => {
                 <p><span>Username:</span> {username}</p>
                 <p><span>Password:</span> {password}</p>
               </div>
-              <div className="d-flex justify-content-center flex-row">
+              <div className="d-flex justify-content-center align-items-center flex-row">
                 <button className="btn btn-danger my-3 mx-2" onClick={logout}>Logout</button>
               </div>
             </div>
