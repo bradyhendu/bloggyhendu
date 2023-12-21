@@ -1,4 +1,9 @@
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+
 .profile-box{
+
     background-color: var(--bg-color);
     font-family: var(--font-base);
     font-size: 1.5rem;
@@ -18,7 +23,20 @@
     span{
         color: var(--primary-color);
         font-family: var(--font-base);
-        font-size: 1.5rem;
         font-weight: 500;
+    }
+}
+@include media-breakpoint-down(sm) { 
+    .profile-box{
+        font-size: 1rem;
+    }
+}
+
+@include media-breakpoint-up(lg) { 
+    .profile-box{
+        font-size: 2rem;
+        span{
+            margin-right: 50px;
+        }
     }
 }
