@@ -7,13 +7,28 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10; 
 const jwt = require('jsonwebtoken');
 const secretKey = 'secretKeybutlikeSUPERSECRETlikeyoudontevenknow';
+const multer = require('multer');
+const uploadMiddleware = multer({dest: 'uploads/'});
+const fs = require('fs');
+const path = require('path');
 
 
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(express.json());
 
-mongoose.connect('mongodb+srv://blogAdmin:LlF78kOJ0feZgMyE@blogcluster.48qnofa.mongodb.net/?retryWrites=true&w=majority');
+(async () => {
+    try {
+        await mongoose.connect('mongodb+srv://blogAdmin:LlF78kOJ0feZgMyE@blogcluster.48qnofa.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB");
+        app.listen(4000, () => {
+            console.log('Server is running on port 4000');
+        });
+    } catch (err) {
+        console.error('Failed to connect to MongoDB: ', err);
+    }
+ })();
+ 
 
 
 app.post('/register', async (req, res) => {
@@ -61,7 +76,13 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.listen(4000);
+app.post('/post', uploadMiddleware.single('file'),(req, res) => {
+    const {originalname, path} = req.file;
+    const parts = originalname.split('.');
+    const extension = parts[parts.length - 1];
+    fs.renameSync(path, path + '.' + extension);
+    res.json({extension});
+});
 
 //blogAdmin
 //mongodb+srv://blogAdmin:LlF78kOJ0feZgMyE@blogcluster.48qnofa.mongodb.net/?retryWrites=true&w=majority
