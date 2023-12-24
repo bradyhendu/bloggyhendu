@@ -1,0 +1,15 @@
+.blog-post{
+    font-family: var(--font-base);
+
+    button{
+        background-color: var(--bg-color);
+        color: var(--primary-color);
+
+        font-size: larger;
+
+        &:hover{
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+        }
+    }
+}
