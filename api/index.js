@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 const UserModel = require('./models/User');
+const PostModel = require('./models/Post');
 const bcrypt = require('bcrypt');
 const saltRounds = 10; 
 const jwt = require('jsonwebtoken');
@@ -76,12 +77,23 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.post('/post', uploadMiddleware.single('file'),(req, res) => {
+app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
     const {originalname, path} = req.file;
     const parts = originalname.split('.');
     const extension = parts[parts.length - 1];
-    fs.renameSync(path, path + '.' + extension);
-    res.json({extension});
+    const newPath = path + '.' + extension;
+    fs.renameSync(path, newPath);
+
+    const {title, description, content} = req.body;
+    const image =  newPath;
+
+    await PostModel.create({title, description, content, image})
+        .then(postDoc => {
+            res.json({post: postDoc});
+        })
+        .catch(err => {
+            res.status(500).json({message: 'Something went wrong'});
+        });
 });
 
 //blogAdmin
