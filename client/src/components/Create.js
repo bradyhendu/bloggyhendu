@@ -43,6 +43,12 @@ const Create = () => {
     } catch (err) {
       console.error(err.message);
     }
+
+    setTitle('');
+    setDescription('');
+    setContent('');
+    setFile('');
+    if(window.confirm('Post created successfully!')) window.location = '/';
   }
   return (
     <>
