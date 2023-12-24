@@ -36,7 +36,7 @@ const Create = () => {
       data.set('description', description);
       data.set('content', content);
       data.set('file', file);
-      const response = await fetch('http://localhost:4000/post', {
+      await fetch('http://localhost:4000/post', {
         method: 'POST',
         body: data,
       });
