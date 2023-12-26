@@ -12,11 +12,13 @@ const multer = require('multer');
 const uploadMiddleware = multer({dest: 'uploads/'});
 const fs = require('fs');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
 
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(express.json());
+app.use(cookieParser());
 
 (async () => {
     try {
@@ -86,14 +88,25 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
 
     const {title, description, content} = req.body;
     const image =  newPath;
+    
+    const {token} = req.cookies;
+    jwt.verify(token, secretKey, async (err, decoded) => {
+        if(err){
+            res.status(401).json({message: 'Invalid token'});
+        } else {
+            const {id} = decoded;
+            try{
+                const postDoc = await PostModel.create({title, description, content, image, author: id});
+                res.json({post: postDoc});
+            } catch(err) {
+                res.status(500).json({message: 'Something went wrong'});
+            }
+        }
+    });
+});
 
-    await PostModel.create({title, description, content, image})
-        .then(postDoc => {
-            res.json({post: postDoc});
-        })
-        .catch(err => {
-            res.status(500).json({message: 'Something went wrong'});
-        });
+app.get('/post', async (req, res) => { 
+    res.json(await PostModel.find({}));
 });
 
 //blogAdmin
