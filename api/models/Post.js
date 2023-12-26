@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const PostSchema = new mongoose.Schema({
+const PostSchema = new Schema({
     title: {
         type: String,
         required: [true, 'Title is required'],
@@ -20,6 +21,11 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Image is required']
     },
+    author: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User',
+        required: [true, 'Author is required']
+    }
 }, {timestamps: true});
 
 const PostModel = mongoose.model('Post', PostSchema);
