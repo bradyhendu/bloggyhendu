@@ -11,7 +11,6 @@ const secretKey = 'secretKeybutlikeSUPERSECRETlikeyoudontevenknow';
 const multer = require('multer');
 const uploadMiddleware = multer({dest: 'uploads/'});
 const fs = require('fs');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 
 
@@ -19,10 +18,11 @@ const cookieParser = require('cookie-parser');
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(express.json());
 app.use(cookieParser());
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 (async () => {
     try {
-        await mongoose.connect('mongodb+srv://blogAdmin:LlF78kOJ0feZgMyE@blogcluster.48qnofa.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+        await mongoose.connect('mongodb+srv://blogAdmin:LlF78kOJ0feZgMyE@blogcluster.48qnofa.mongodb.net/?retryWrites=true&w=majority');
         console.log("Connected to MongoDB");
         app.listen(4000, () => {
             console.log('Server is running on port 4000');
@@ -80,9 +80,11 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
-    const {originalname, path} = req.file;
+    const {originalname} = req.file;
     const parts = originalname.split('.');
     const extension = parts[parts.length - 1];
+    let path = req.file.path;
+    path = path.replace(/\\/g, '/');
     const newPath = path + '.' + extension;
     fs.renameSync(path, newPath);
 
@@ -106,7 +108,9 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
 });
 
 app.get('/post', async (req, res) => { 
-    res.json(await PostModel.find({}));
+    res.json(await PostModel.find()
+      .populate('author', ['username', 'firstName', 'lastName', 'email'])
+      .sort({createdAt: 'desc'}));
 });
 
 //blogAdmin
