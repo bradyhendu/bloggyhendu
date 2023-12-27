@@ -9,6 +9,7 @@ const Create = () => {
   const [description, setDescription] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState('');
+  const [error, setError] = useState('');
 
   const modules = {
     toolbar: [
@@ -36,20 +37,22 @@ const Create = () => {
       data.set('description', description);
       data.set('content', content);
       data.set('file', file);
-      await fetch('http://localhost:4000/post', {
+      const response = await fetch('http://localhost:4000/post', {
         method: 'POST',
         body: data,
         credentials: 'include'
       });
+
+      if (response.status === 200) {
+        window.location.replace('/');
+      } else {
+        setError('Something went wrong, ensure all fields are filled out correctly (fields must have at least 2 characters)');
+      }
     } catch (err) {
-      console.error(err.message);
+      setError('Something went wrong, ensure all fields are filled out correctly (fields must have at least 2 characters)');
     }
-     
-    setTitle('');
-    setDescription('');
-    setContent('');
-    setFile('');
-    if(window.confirm('Post created successfully!')) window.location = '/';
+
+
   }
   return (
     <>
@@ -91,6 +94,7 @@ const Create = () => {
         />
         <button className='btn my-2'>Publish my Post</button>
       </form>
+      {error && <p className='text-danger text-center'>{error}</p>}
     </>
   )
 }

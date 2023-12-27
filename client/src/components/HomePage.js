@@ -14,11 +14,11 @@ const HomePage = () => {
     }, []);
 
   return (
-    <>
+    <div className='my-3 d-flex align-items-center flex-column vh-100'>
         {posts.length > 0 && posts.map(post => (
-            <Post {...post}/>
+            <Post key={post._id} {...post}/>
         ))}
-    </>
+    </div>
   )
 }
 
