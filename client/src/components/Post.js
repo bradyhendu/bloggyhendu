@@ -1,7 +1,7 @@
 import React from 'react'
 import { formatISO9075 } from 'date-fns'
 
-const Post = ({title, description, content, image, createdAt, author}) => {
+const Post = ({title, description, image, createdAt, author}) => {
   return (
     <div className='card my-3 mx-2' style={{maxWidth: '500px'}}>
       <div className='row g-0'>
