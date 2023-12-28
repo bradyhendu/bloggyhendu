@@ -5,6 +5,9 @@ import Create from "./components/Create";
 import Profile from "./components/Profile";
 import HomePage from "./components/HomePage";
 import SpecificPost from "./components/SpecificPost";
+import Delete from "./components/Delete";
+import Edit from "./components/Edit";
+import Footer from "./components/Footer";
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -19,7 +22,10 @@ function App() {
         <Route path="/create" element={<Create />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/post/:id" element={<SpecificPost />} />
+        <Route path="/delete/:id" element={<Delete />} />
+        <Route path="/edit/:id" element={<Edit />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }
