@@ -27,7 +27,7 @@ const Profile = () => {
       {
         token ? (
           <div className="container-fluid d-flex justify-content-center align-items-center flex-column vh-100">
-            <div className=' col-6 d-flex justify-content-center align-items-center profile-box rounded-4 flex-column'>
+            <div className=' col-10 d-flex justify-content-center align-items-center profile-box rounded-4 flex-column'>
               <h1 className='my-3'>Your Profile</h1>
               <hr className="w-100 line" />
               <div className="d-flex flex-column">
