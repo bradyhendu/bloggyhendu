@@ -113,5 +113,15 @@ app.get('/post', async (req, res) => {
       .sort({createdAt: 'desc'}));
 });
 
+app.get('/post/:id', async (req, res) => {
+    const {id} = req.params;
+    try{
+        const postDoc = await PostModel.findById(id).populate('author', ['username', 'firstName', 'lastName', 'email']);
+        res.json(postDoc);
+    } catch(err) {
+        res.status(500).json({message: 'Something went wrong'});
+    }
+});
+
 //blogAdmin
 //mongodb+srv://blogAdmin:LlF78kOJ0feZgMyE@blogcluster.48qnofa.mongodb.net/?retryWrites=true&w=majority
