@@ -1,43 +1,55 @@
-import React, {useState} from 'react'
-
-import '../styles/Create.scss'
+import React, {useEffect, useState} from 'react'
+import { useParams } from 'react-router-dom';
 import Editor from './Editor'
 
-const Create = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [content, setContent] = useState('');
-  const [file, setFile] = useState('');
-  const [error, setError] = useState('');
+const Edit = () => {
+    const { id } = useParams();
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [content, setContent] = useState('');
+    const [file, setFile] = useState('');
+    const [error, setError] = useState('');
 
-  const createNewPost = async (e) => {
+    useEffect(() => {
+        fetch('http://localhost:4000/post/' + id).then(res => 
+            res.json().then(post => 
+                {setTitle(post.title); 
+                setDescription(post.description); 
+                setContent(post.content)}
+            )
+        )
+    }, [id]);
+
+  const updatePost = async (e) => {
     e.preventDefault();
     try {
       const data = new FormData();
       data.set('title', title);
       data.set('description', description);
       data.set('content', content);
-      data.set('file', file);
-      const response = await fetch('http://localhost:4000/post', {
+      data.set('id', id);
+      if (file) {
+        data.set('file', file);
+      }
+      const response = await fetch('http://localhost:4000/edit', {
         method: 'POST',
         body: data,
         credentials: 'include'
       });
 
       if (response.status === 200) {
-        window.location.replace('/');
+        window.location.replace('/post/' + id);
       } else {
         setError('Something went wrong, ensure all fields are filled out correctly (fields must have at least 2 characters)');
       }
     } catch (err) {
       setError('Something went wrong, ensure all fields are filled out correctly (fields must have at least 2 characters)');
     }
-
-
   }
+
   return (
     <>
-      <form className='d-flex justify-content-center flex-column mx-4 my-5 blog-post' onSubmit={createNewPost}>
+      <form className='d-flex justify-content-center flex-column mx-4 my-5 blog-post' onSubmit={updatePost}>
         <label>Title:</label>
         <input 
           type="text" 
@@ -63,14 +75,13 @@ const Create = () => {
           placeholder="Image" 
           accept="image/*" 
           onChange={e => setFile(e.target.files[0])}
-          required
         />
         <Editor content={content} onChange={setContent} />
-        <button className='btn my-2'>Publish my Post</button>
+        <button className='btn my-2'>Update Post</button>
       </form>
       {error && <p className='text-danger text-center'>{error}</p>}
     </>
   )
 }
 
-export default Create
+export default Edit
