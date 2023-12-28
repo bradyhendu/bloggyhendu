@@ -123,5 +123,82 @@ app.get('/post/:id', async (req, res) => {
     }
 });
 
+app.get('/edit/:id', async (req, res) => {
+    const {id} = req.params;
+    try{
+        const postDoc = await PostModel.findById(id).populate('author', ['username', 'firstName', 'lastName', 'email']);
+        res.json(postDoc);
+    } catch(err) {
+        res.status(500).json({message: 'Something went wrong'});
+    }
+});
+
+app.post('/edit', uploadMiddleware.single('file'), async (req, res) => {
+    console.log(req.body);
+    let newPath = null;
+    if(req.file){
+        const {originalname} = req.file;
+        const parts = originalname.split('.');
+        const extension = parts[parts.length - 1];
+        let path = req.file.path;
+        path = path.replace(/\\/g, '/');
+        let newPath = path + '.' + extension;
+        fs.renameSync(path, newPath);
+    }
+    
+    const {token} = req.cookies;  
+    jwt.verify(token, secretKey, async (err, decoded) => {
+        if(err){
+            res.status(401).json({message: 'Invalid token'});
+        } else {
+            const {title, description, content, id} = req.body;
+            const postDoc = await PostModel.findById(id);
+
+            console.log(id);
+
+            if(!postDoc){
+                return res.status(404).json({message: 'Post not found'});
+            }
+
+            const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(decoded.id);
+
+            if(!isAuthor){
+               return res.status(401).json({message: 'You are not the author'});
+            }
+            try{
+                await postDoc.updateOne({title, description, content, image: newPath ? newPath : postDoc.image});
+                res.json({post: postDoc});
+            } catch(err) {
+                res.status(500).json({message: 'Something went wrong'});
+            }
+        }
+    });
+});
+
+app.delete('/delete/:id', async (req, res) => {
+    const {token} = req.cookies;
+    const {id} = req.params;
+    jwt.verify(token, secretKey, async (err, decoded) => {
+        if(err){
+            res.status(401).json({message: 'Invalid token'});
+        } else {
+            const postDoc = await PostModel.findById(id);
+            if(!postDoc){
+                return res.status(404).json({message: 'Post not found'});
+            }
+            const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(decoded.id);
+            if(!isAuthor){
+               return res.status(401).json({message: 'You are not the author'});
+            }
+            try{
+                await postDoc.deleteOne();
+                res.json({message: 'Success'});
+            } catch(err) {
+                res.status(500).json({message: 'Something went wrong'});
+            }
+        }
+    });
+});
+
 //blogAdmin
 //mongodb+srv://blogAdmin:LlF78kOJ0feZgMyE@blogcluster.48qnofa.mongodb.net/?retryWrites=true&w=majority
