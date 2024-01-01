@@ -38,11 +38,11 @@ const SpecificPost = () => {
                     </div>
                 }
                 <div className='d-flex justify-content-center my-2'>
-                    <img src={'http://localhost:4000/' + post.image} className='img-fluid rounded w-75' alt={post.title} />
+                    <img src={'http://localhost:4000/' + post.image} className='img-fluid rounded w-75 object-cover'  alt={post.title} />
                 </div>
                 <h4 className='text-center'>{post.description}</h4>
                 <hr />
-                <div style={{fontSize: '18px'}} dangerouslySetInnerHTML={{__html:post.content}}></div>
+                <div dangerouslySetInnerHTML={{__html:post.content}}></div>
             </div>
         }
     </div>
