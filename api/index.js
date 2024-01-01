@@ -35,9 +35,26 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 
 
 app.post('/register', uploadMiddleware.single('file'), async (req, res) => {
+    let image;
+
+    if(req.file){
+        const {originalname} = req.file;
+        const parts = originalname.split('.');
+        const extension = parts[parts.length - 1];
+        let path = req.file.path;
+        path = path.replace(/\\/g, '/');
+        image =  path + '.' + extension;
+        fs.renameSync(path, image);
+    }
+
     const {username, password, firstName, lastName, email} = req.body;
     try{
-        const userDoc = await UserModel.create({username, password:bcrypt.hashSync(password, saltRounds), firstName, lastName, email});
+        let userDoc;
+        if(image){
+            userDoc = await UserModel.create({username, password:bcrypt.hashSync(password, saltRounds), firstName, lastName, email, profilePicture: image});
+        } else {
+            userDoc = await UserModel.create({username, password:bcrypt.hashSync(password, saltRounds), firstName, lastName, email});
+        }
         jwt.sign({username, id:userDoc._id, password, firstName, lastName, email}, secretKey, (err, token) => {
             if(err){
                 res.status(500).json({message: 'Something went wrong'});
@@ -134,7 +151,6 @@ app.get('/edit/:id', async (req, res) => {
 });
 
 app.post('/edit', uploadMiddleware.single('file'), async (req, res) => {
-    console.log(req.body);
     let newPath = null;
     if(req.file){
         const {originalname} = req.file;
