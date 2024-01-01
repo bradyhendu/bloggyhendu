@@ -215,6 +215,3 @@ app.delete('/delete/:id', async (req, res) => {
         }
     });
 });
-
-//blogAdmin
-//mongodb+srv://blogAdmin:LlF78kOJ0feZgMyE@blogcluster.48qnofa.mongodb.net/?retryWrites=true&w=majority
