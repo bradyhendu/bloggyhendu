@@ -34,7 +34,7 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
  
 
 
-app.post('/register', async (req, res) => {
+app.post('/register', uploadMiddleware.single('file'), async (req, res) => {
     const {username, password, firstName, lastName, email} = req.body;
     try{
         const userDoc = await UserModel.create({username, password:bcrypt.hashSync(password, saltRounds), firstName, lastName, email});
@@ -109,14 +109,14 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
 
 app.get('/post', async (req, res) => { 
     res.json(await PostModel.find()
-      .populate('author', ['username', 'firstName', 'lastName', 'email'])
+      .populate('author', ['username', 'firstName', 'lastName', 'email', 'profilePicture'])
       .sort({createdAt: 'desc'}));
 });
 
 app.get('/post/:id', async (req, res) => {
     const {id} = req.params;
     try{
-        const postDoc = await PostModel.findById(id).populate('author', ['username', 'firstName', 'lastName', 'email']);
+        const postDoc = await PostModel.findById(id).populate('author', ['username', 'firstName', 'lastName', 'email', 'profilePicture']);
         res.json(postDoc);
     } catch(err) {
         res.status(500).json({message: 'Something went wrong'});
