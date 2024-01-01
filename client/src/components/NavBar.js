@@ -5,13 +5,17 @@ import Cookies from 'js-cookie'
 import '../styles/NavBar.scss'
 
 const NavBar = () => {
-    const token = Cookies.get('token');
-    let base64Payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-    while (base64Payload.length % 4 !== 0) {
-        base64Payload += '=';
+    let username = '';
+    let token;
+    if(Cookies.get('token')) {
+        token = Cookies.get('token');
+        let base64Payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+        while (base64Payload.length % 4 !== 0) {
+            base64Payload += '=';
+        }
+        const payload = JSON.parse(atob(base64Payload));
+        username = payload.username;
     }
-    const payload = JSON.parse(atob(base64Payload));
-    const username = payload.username;
 
   return (
     <nav className="navbar navbar-expand-md navbar-light navbar-content">
