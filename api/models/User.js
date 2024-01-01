@@ -8,6 +8,7 @@ const UserSchema = new Schema({
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true }, 
     profilePicture: { type: String, default: 'uploads/default.png' },
+    userPosts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
 });
 
 const UserModel = model('User', UserSchema);
