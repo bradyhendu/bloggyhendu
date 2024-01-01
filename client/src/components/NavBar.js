@@ -6,6 +6,13 @@ import '../styles/NavBar.scss'
 
 const NavBar = () => {
     const token = Cookies.get('token');
+    let base64Payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    while (base64Payload.length % 4 !== 0) {
+        base64Payload += '=';
+    }
+    const payload = JSON.parse(atob(base64Payload));
+    const username = payload.username;
+
   return (
     <nav className="navbar navbar-expand-md navbar-light navbar-content">
         <div className='container-fluid'>
@@ -21,7 +28,7 @@ const NavBar = () => {
                     {token ? (
                         <>
                             <a className="nav-link" aria-current="page" href="/create">Create Post</a>
-                            <a className="nav-link" aria-current="page" href="/profile">Profile</a>
+                            <a className="nav-link" aria-current="page" href={'/profile/' + username}>Profile</a>
                         </>
                     ) : (
                         <>
