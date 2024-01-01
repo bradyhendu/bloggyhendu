@@ -69,10 +69,10 @@ app.post('/login', async (req, res) => {
                     }
                 });
             } else {
-                res.status(401).json({message: 'Invalid credentials'});
+                res.status(401).json({message: 'Invalid Password'});
             }
         } else {
-            res.status(401).json({message: 'Invalid credentials'});
+            res.status(401).json({message: 'Invalid Username'});
         }
     } catch(err) {
         res.status(500).json({message: 'Something went wrong'});
