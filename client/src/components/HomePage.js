@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Post from './Post'
+import Footer from './Footer';
 
 const HomePage = () => {
 
@@ -24,6 +25,7 @@ const HomePage = () => {
                 <h5 className='text-center text-muted'>Or <a href='/create' style={{color: '#6A704C'}}>create one</a> yourself!</h5>
             </div>
         }
+        <Footer />
     </div>
   )
 }
