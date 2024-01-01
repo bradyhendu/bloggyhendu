@@ -215,3 +215,13 @@ app.delete('/delete/:id', async (req, res) => {
         }
     });
 });
+
+app.get('/user/:username', async (req, res) => {
+    const {username} = req.params;
+    try{
+        const userDoc = await UserModel.findOne({username});
+        res.json(userDoc);
+    } catch(err) {
+        res.status(500).json({message: 'Could not find user'});
+    }
+});
