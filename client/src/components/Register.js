@@ -11,8 +11,9 @@ const Register = () => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [file, setFile] = useState('');
 
-    const token = Cookies.get('token');
+  const token = Cookies.get('token');
 
   async function register(e) {
     e.preventDefault();
@@ -21,7 +22,7 @@ const Register = () => {
           headers: {
               'Content-Type': 'application/json'
           },
-          body: JSON.stringify({username, password, firstName, lastName, email}),
+          body: JSON.stringify({username, password, firstName, lastName, email, file}),
           credentials: 'include'
       });
 
@@ -54,6 +55,8 @@ const Register = () => {
                         <input type="email" placeholder="Email" value={email} className="form-control my-3" onChange={e => setEmail(e.target.value)}/>
                         <input type="text" placeholder="Username" value={username} className="form-control my-3" onChange={e => setUsername(e.target.value)}/>
                         <input type="password" placeholder="Password" value={password} className="form-control my-3" onChange={e => setPassword(e.target.value)}/>
+                        <label className='fs-5'>Profile Picture:</label>
+                        <input type="file" className="form-control my-3" accept="image/*" onChange={e => setFile(e.target.files[0])}/>
                         <button className="btn custom-bg my-3">Register</button>
                         <p className="text-center">Already have an account? <a href="/login">Login</a></p>
                     </form>
