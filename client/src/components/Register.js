@@ -17,25 +17,37 @@ const Register = () => {
 
   async function register(e) {
     e.preventDefault();
-      const response = await fetch('http://localhost:4000/register', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({username, password, firstName, lastName, email, file}),
-          credentials: 'include'
-      });
+    try{
+        const data = new FormData();
+        data.set('username', username);
+        data.set('password', password);
+        data.set('firstName', firstName);
+        data.set('lastName', lastName);
+        data.set('email', email);
+        if (file) {
+            data.set('file', file);
+        }
 
-      if(response.status === 200){
-          window.location.href = '/';
-      } else if (response.status === 400){
-          setError('Username or email already exists');
-          document.getElementById('bottom').scrollIntoView({behavior: "smooth"});
-      } else {
-          setError('Something went wrong');
-          document.getElementById('bottom').scrollIntoView({behavior: "smooth"});
-      }
-    }
+        const response = await fetch('http://localhost:4000/register', {
+            method: 'POST',
+            body: data,
+            credentials: 'include'
+        });
+
+        if(response.status === 200){
+            window.location.href = '/';
+        } else if (response.status === 400){
+            setError('Username or email already exists');
+            document.getElementById('bottom').scrollIntoView({behavior: "smooth"});
+        } else {
+            setError('Something went wrong');
+            document.getElementById('bottom').scrollIntoView({behavior: "smooth"});
+        }
+        } catch(err) {
+            setError('Something went wrong');
+            document.getElementById('bottom').scrollIntoView({behavior: "smooth"});
+        }
+  } 
 
   return (
     <>
