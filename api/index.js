@@ -97,6 +97,7 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
+
     const {originalname} = req.file;
     const parts = originalname.split('.');
     const extension = parts[parts.length - 1];
@@ -116,6 +117,10 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
             const {id} = decoded;
             try{
                 const postDoc = await PostModel.create({title, description, content, image, author: id});
+                const updatedUser = await UserModel.findByIdAndUpdate(id, {$push: {userPosts: postDoc._id}}, {new: true});
+                if(!updatedUser){
+                    throw new Error('Unable to add post to user');
+                }
                 res.json({post: postDoc});
             } catch(err) {
                 res.status(500).json({message: 'Something went wrong'});
@@ -219,8 +224,16 @@ app.delete('/delete/:id', async (req, res) => {
 app.get('/user/:username', async (req, res) => {
     const {username} = req.params;
     try{
-        const userDoc = await UserModel.findOne({username});
-        res.json(userDoc);
+        const userDoc = await UserModel.findOne({username}) .populate({
+            path: 'userPosts',
+            select: ['title', 'description', 'image', 'createdAt'],
+            options: { sort: { 'createdAt': -1 } },
+            populate: { path: 'author' }
+          });
+        if(!userDoc){
+            return res.status(404).json({message: 'User not found'});
+        }
+        res.json({user: userDoc});
     } catch(err) {
         res.status(500).json({message: 'Could not find user'});
     }
