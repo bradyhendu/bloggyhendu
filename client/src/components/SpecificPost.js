@@ -38,7 +38,7 @@ const SpecificPost = () => {
                     </div>
                 }
                 <div className='d-flex justify-content-center my-2'>
-                    <img src={'http://localhost:4000/' + post.image} className='img-fluid rounded w-75 object-cover'  alt={post.title} />
+                    <img src={'http://localhost:4000/' + post.image} className='img-fluid rounded w-75 object-cover'  style={{maxHeight:'500px', maxWidth: '500px'}} alt={post.title} />
                 </div>
                 <h4 className='text-center'>{post.description}</h4>
                 <hr />
