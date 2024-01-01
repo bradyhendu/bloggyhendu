@@ -13,13 +13,15 @@ const Profile = () => {
   let token;
   let tokenUsername;
 
-  token = Cookies.get('token');
-  let base64Payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-  while (base64Payload.length % 4 !== 0) {
-      base64Payload += '=';
+  if(Cookies.get('token')){
+    token = Cookies.get('token');
+    let base64Payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    while (base64Payload.length % 4 !== 0) {
+        base64Payload += '=';
+    }
+    const payload = JSON.parse(atob(base64Payload));
+    tokenUsername = payload.username;//for checking the token's username against the username in the url (for the password)
   }
-  const payload = JSON.parse(atob(base64Payload));
-  tokenUsername = payload.username;//for checking the token's username against the username in the url (for the password)
 
   useEffect(() => {
     fetch('http://localhost:4000/user/' + username).then(res => 
@@ -40,17 +42,17 @@ const Profile = () => {
         user ? (
           <div className="container-fluid d-flex justify-content-center align-items-center flex-column vh-100">
             <div className=' col-10 d-flex justify-content-center align-items-center profile-box rounded-4 flex-column'>
-              <h1 className='my-3'>Your Profile</h1>
+              <h1 className='my-3'>{user.username}'s Profile</h1>
               <hr className="w-100 line" />
               <div className="d-flex flex-column">
                 <p><span>Name:</span> {user.firstName} {user.lastName}</p>
                 <p><span>Email:</span> {user.email}</p>
-                <p><span>Username:</span> {user.username}</p>
-                <p><span>Password:</span> {user.password}</p>
               </div>
-              <div className="d-flex justify-content-center align-items-center flex-row">
-                <button className="btn btn-danger my-3 mx-2" onClick={logout}>Logout</button>
-              </div>
+              {tokenUsername === username &&
+                <div className="d-flex justify-content-center align-items-center flex-row">
+                  <button className="btn btn-danger my-3 mx-2" onClick={logout}>Logout</button>
+                </div>
+              }
             </div>
           </div>
         ) : (
