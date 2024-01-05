@@ -28,7 +28,7 @@ const Register = () => {
             data.set('file', file);
         }
 
-        const response = await fetch('http://localhost:4000/register', {
+        const response = await fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/register', {
             method: 'POST',
             body: data,
             credentials: 'include'

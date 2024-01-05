@@ -8,7 +8,7 @@ const Delete = () => {
   const deletePost = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:4000/delete/' + id, {
+      const response = await fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/delete/' + id, {
         method: 'DELETE',
         credentials: 'include'
       });

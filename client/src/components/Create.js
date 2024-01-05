@@ -18,7 +18,7 @@ const Create = () => {
       data.set('description', description);
       data.set('content', content);
       data.set('file', file);
-      const response = await fetch('http://localhost:4000/post', {
+      const response = await fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/post', {
         method: 'POST',
         body: data,
         credentials: 'include'

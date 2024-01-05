@@ -11,7 +11,7 @@ const Edit = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:4000/post/' + id).then(res => 
+        fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/post/' + id).then(res => 
             res.json().then(post => 
                 {setTitle(post.title); 
                 setDescription(post.description); 
@@ -31,7 +31,7 @@ const Edit = () => {
       if (file) {
         data.set('file', file);
       }
-      const response = await fetch('http://localhost:4000/edit', {
+      const response = await fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/edit', {
         method: 'POST',
         body: data,
         credentials: 'include'

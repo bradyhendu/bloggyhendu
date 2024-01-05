@@ -18,7 +18,7 @@ const SpecificPost = () => {
     
 
     useEffect(() => {
-        fetch('http://localhost:4000/post/' + id).then(res => 
+        fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/' + id).then(res => 
             res.json().then(post => 
                 setPost(post)
             )
@@ -38,7 +38,7 @@ const SpecificPost = () => {
                     </div>
                 }
                 <div className='d-flex justify-content-center my-2'>
-                    <img src={'http://localhost:4000/' + post.image} className='img-fluid rounded w-75 object-cover'  style={{maxHeight:'500px', maxWidth: '500px'}} alt={post.title} />
+                    <img src={'https://bloggyhendu-1dfd9d591b8b.herokuapp.com/' + post.image} className='img-fluid rounded w-75 object-cover'  style={{maxHeight:'500px', maxWidth: '500px'}} alt={post.title} />
                 </div>
                 <h4 className='text-center'>{post.description}</h4>
                 <hr />

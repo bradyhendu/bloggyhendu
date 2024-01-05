@@ -7,7 +7,7 @@ const HomePage = () => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:4000/post').then(res => 
+        fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/post').then(res => 
             res.json().then(posts => 
                 setPosts(posts)
             )
