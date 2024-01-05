@@ -13,6 +13,8 @@ const uploadMiddleware = multer({dest: 'uploads/'});
 const fs = require('fs');
 const cookieParser = require('cookie-parser');
 
+const PORT = process.env.PORT || 4000;
+
 
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
@@ -24,13 +26,17 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
     try {
         await mongoose.connect('mongodb+srv://blogAdmin:LlF78kOJ0feZgMyE@blogcluster.48qnofa.mongodb.net/?retryWrites=true&w=majority');
         console.log("Connected to MongoDB");
-        app.listen(4000, () => {
-            console.log('Server is running on port 4000');
+        app.listen(PORT, () => {
+
         });
     } catch (err) {
         console.error('Failed to connect to MongoDB: ', err);
     }
  })();
+
+ app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
  
 
 
