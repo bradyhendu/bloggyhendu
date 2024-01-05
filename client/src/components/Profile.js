@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import Cookies from 'js-cookie'
+import { jwtDecode } from 'jwt-decode'
 import {useParams} from 'react-router-dom'
 
 import Post from './Post'
@@ -16,15 +16,11 @@ const Profile = () => {
   let token;
   let tokenUsername;
 
-  if(Cookies.get('token')){
-    token = Cookies.get('token');
-    let base64Payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-    while (base64Payload.length % 4 !== 0) {
-        base64Payload += '=';
-    }
-    const payload = JSON.parse(atob(base64Payload));
-    tokenUsername = payload.username;//for checking the token's username against the username in the url (for the password)
-  }
+  if(localStorage.getItem('token')){
+    token = localStorage.getItem('token');
+    const decoded = jwtDecode(token);
+    tokenUsername = decoded.username;
+  } 
 
   useEffect(() => {
     fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/user/' + username).then(res => 
@@ -38,7 +34,7 @@ const Profile = () => {
   }, [username]);
 
     function logout() {
-      Cookies.remove('token');
+
       window.location.href = '/login';
     }
 

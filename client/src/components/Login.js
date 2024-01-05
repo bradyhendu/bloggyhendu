@@ -1,6 +1,4 @@
 import React, {useState} from 'react'
-import Cookies from 'js-cookie';
-
 
 import '../styles/Login.scss'
 
@@ -10,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const token = Cookies.get('token');
+  const [token, setToken] = useState(null);
 
   async function login(e) {
     e.preventDefault();
@@ -22,7 +20,12 @@ const Login = () => {
       body: JSON.stringify({username, password}),
       credentials: 'include'
     });
+
     if(response.status === 200){
+      response.json().then(data => {
+        localStorage.setItem('token', data.token);
+        setToken(data.token);
+      });
       window.location.href = '/';
     } else if (response.status === 401){
       setError('Invalid credentials');

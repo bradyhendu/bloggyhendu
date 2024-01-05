@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import Cookies from 'js-cookie';
 
 import '../styles/Register.scss'
 
@@ -13,7 +12,7 @@ const Register = () => {
   const [error, setError] = useState('');
   const [file, setFile] = useState('');
 
-  const token = Cookies.get('token');
+  const [token, setToken] = useState(null);
 
   async function register(e) {
     e.preventDefault();
@@ -35,6 +34,10 @@ const Register = () => {
         });
 
         if(response.status === 200){
+            response.json().then(data => {
+                localStorage.setItem('token', data.token);
+                setToken(data.token);
+            });
             window.location.href = '/';
         } else if (response.status === 400){
             setError('Username or email already exists');

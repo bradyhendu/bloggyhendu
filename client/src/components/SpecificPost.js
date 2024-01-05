@@ -1,24 +1,24 @@
 import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns'
-import Cookies from 'js-cookie'
+import { jwtDecode } from 'jwt-decode';
 
 const SpecificPost = () => {
     const { id } = useParams();
     const [post, setPost] = useState(null);
-    const token = Cookies.get('token');
-    let base64Payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-    while (base64Payload.length % 4 !== 0) {
-        base64Payload += '=';
-    }
-    const payload = JSON.parse(atob(base64Payload));
+    
+    let token;
 
-    //user's username
-    const username = payload.username;
+    let username = '';
+    if(localStorage.getItem('token')){
+        token = localStorage.getItem('token');
+        const decoded = jwtDecode(token);
+        username = decoded.username;
+    }
     
 
     useEffect(() => {
-        fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/' + id).then(res => 
+        fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/post/' + id).then(res => 
             res.json().then(post => 
                 setPost(post)
             )

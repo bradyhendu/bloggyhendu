@@ -1,22 +1,17 @@
 import React from 'react'
 import logo from '../images/logo.png'
-import Cookies from 'js-cookie'
+import {jwtDecode} from 'jwt-decode';
+
 
 import '../styles/NavBar.scss'
 
 const NavBar = () => {
-    let username = '';
     let token;
-    if(Cookies.get('token')) {
-        token = Cookies.get('token');
-        if(token){
-            let base64Payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-            while (base64Payload.length % 4 !== 0) {
-                base64Payload += '=';
-            }
-            const payload = JSON.parse(atob(base64Payload));
-            username = payload.username;
-        }
+    let username = '';
+    if(localStorage.getItem('token')){
+        token = localStorage.getItem('token');
+        const decoded = jwtDecode(token);
+        username = decoded.username;
     }
 
   return (
