@@ -9,12 +9,14 @@ const NavBar = () => {
     let token;
     if(Cookies.get('token')) {
         token = Cookies.get('token');
-        let base64Payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-        while (base64Payload.length % 4 !== 0) {
-            base64Payload += '=';
+        if(token){
+            let base64Payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+            while (base64Payload.length % 4 !== 0) {
+                base64Payload += '=';
+            }
+            const payload = JSON.parse(atob(base64Payload));
+            username = payload.username;
         }
-        const payload = JSON.parse(atob(base64Payload));
-        username = payload.username;
     }
 
   return (
