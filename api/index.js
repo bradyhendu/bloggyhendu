@@ -69,7 +69,11 @@ app.post('/register', uploadMiddleware.single('file'), async (req, res) => {
             if(err){
                 res.status(500).json({message: 'Something went wrong'});
             } else {
-                res.cookie('token', token).json({message: 'Success'});
+                res.cookie('token', token, {
+                    sameSite: 'none',
+                    secure: true,
+                    domain: '.bloggyhendu-1dfd9d591b8b.herokuapp.com'
+                 }).json({message: 'Success'});                 
             }
         });
     } catch(err) {
@@ -92,7 +96,12 @@ app.post('/login', async (req, res) => {
                     if(err){
                         res.status(500).json({message: 'Something went wrong'});
                     } else {
-                        res.cookie('token', token).json({message: 'Success'});
+                        res.cookie('token', token, {
+                            sameSite: 'none',
+                            secure: true,
+                            domain: '.bloggyhendu-1dfd9d591b8b.herokuapp.com'
+                         }).json({message: 'Success'});
+                         
                     }
                 });
             } else {
