@@ -15,9 +15,13 @@ const cookieParser = require('cookie-parser');
 
 const PORT = process.env.PORT || 4000;
 
+const corsOptions = {
+    credentials: true,
+    origin: ['http://localhost:3000', 'https://bloggyhendu.com'],
+    optionsSuccessStatus: 200
+}
 
-
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
