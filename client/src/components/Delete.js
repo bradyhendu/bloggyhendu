@@ -4,13 +4,18 @@ import { useParams } from 'react-router-dom';
 const Delete = () => {
   const { id } = useParams();
   const [error, setError] = useState('');
+  const [token, setToken] = useState(localStorage.getItem('token'));
 
   const deletePost = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/delete/' + id, {
         method: 'DELETE',
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({token})
       });
 
       if (response.status === 200) {

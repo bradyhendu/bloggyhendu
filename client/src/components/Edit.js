@@ -9,6 +9,7 @@ const Edit = () => {
     const [content, setContent] = useState('');
     const [file, setFile] = useState('');
     const [error, setError] = useState('');
+    const [token, setToken] = useState(localStorage.getItem('token'));
 
     useEffect(() => {
         fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/post/' + id).then(res => 
@@ -28,6 +29,7 @@ const Edit = () => {
       data.set('description', description);
       data.set('content', content);
       data.set('id', id);
+      data.set('token', token);
       if (file) {
         data.set('file', file);
       }
