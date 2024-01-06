@@ -11,7 +11,6 @@ const secretKey = 'secretKeybutlikeSUPERSECRETlikeyoudontevenknow';
 const multer = require('multer');
 const uploadMiddleware = multer({dest: 'uploads/'});
 const fs = require('fs');
-const cookieParser = require('cookie-parser');
 
 const PORT = process.env.PORT || 4000;
 
@@ -23,7 +22,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
 (async () => {
@@ -118,11 +116,11 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
 
     const {title, description, content} = req.body;
     const image =  newPath;
-    
-    const {token} = req.cookies;
+    const {token} = req.body;
+
     jwt.verify(token, secretKey, async (err, decoded) => {
         if(err){
-            res.status(401).json({message: 'Invalid token'});
+            res.status(401).json({message: 'Invalid token, error:' + err});
         } else {
             const {id} = decoded;
             try{
@@ -176,8 +174,7 @@ app.post('/edit', uploadMiddleware.single('file'), async (req, res) => {
         let newPath = path + '.' + extension;
         fs.renameSync(path, newPath);
     }
-    
-    const {token} = req.cookies;  
+    const {token} = req.body;  
     jwt.verify(token, secretKey, async (err, decoded) => {
         if(err){
             res.status(401).json({message: 'Invalid token'});
@@ -207,7 +204,7 @@ app.post('/edit', uploadMiddleware.single('file'), async (req, res) => {
 });
 
 app.delete('/delete/:id', async (req, res) => {
-    const {token} = req.cookies;
+    const {token} = req.body;
     const {id} = req.params;
     jwt.verify(token, secretKey, async (err, decoded) => {
         if(err){
@@ -233,6 +230,7 @@ app.delete('/delete/:id', async (req, res) => {
 
 app.get('/user/:username', async (req, res) => {
     const {username} = req.params;
+    console.log(username);
     try{
         const userDoc = await UserModel.findOne({username}) .populate({
             path: 'userPosts',
