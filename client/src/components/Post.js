@@ -8,7 +8,7 @@ const Post = ({title, description, image, createdAt, author, _id}) => {
         <div className='row g-0'>
             <div className='col-md-12 d-flex align-items-center m-1'>
               <Link to={'/profile/' + author.username} className='text-decoration-none text-dark d-flex align-items-center'>
-                <img src={'https://bloggyhendu-1dfd9d591b8b.herokuapp.com/' + author.profilePicture} className='img-fluid rounded-circle me-2' style={{height: '35px', width: '35px'}} alt={author.username} />
+                <img src={author.profilePicture} className='img-fluid rounded-circle me-2' style={{height: '35px', width: '35px'}} alt={author.username} />
                 <p className='text-center mb-0 fw-medium'>{author.username}</p>
               </Link>
               <p className='text-center mb-0 mx-1'>•</p>
@@ -16,7 +16,7 @@ const Post = ({title, description, image, createdAt, author, _id}) => {
             </div>
             <Link to={'/post/' + _id} className='text-decoration-none text-dark'>
               <div>
-                <img src={'https://bloggyhendu-1dfd9d591b8b.herokuapp.com/' + image} className='img-fluid w-100' style={{height: '350px'}} alt={title} />
+                <img src={image} className='img-fluid w-100' style={{height: '350px'}} alt={title} />
               </div>
             <div className='col-md-12'>
               <div className='card-body'>

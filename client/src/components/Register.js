@@ -65,13 +65,13 @@ const Register = () => {
                         <h1 className="text-center my-2">Register</h1>
                         <small className="text-center">Welcome to bloggyhendu! Please create an account below</small>
                         <hr className="w-100" />
-                        <input type="text" placeholder="First Name" value={firstName} className="form-control my-3" onChange={e => setFirstName(e.target.value)}/>
-                        <input type="text" placeholder="Last Name" value={lastName} className="form-control my-3" onChange={e => setLastName(e.target.value)}/>
-                        <input type="email" placeholder="Email" value={email} className="form-control my-3" onChange={e => setEmail(e.target.value)}/>
-                        <input type="text" placeholder="Username" value={username} className="form-control my-3" onChange={e => setUsername(e.target.value)}/>
-                        <input type="password" placeholder="Password" value={password} className="form-control my-3" onChange={e => setPassword(e.target.value)}/>
+                        <input type="text" placeholder="First Name" value={firstName} className="form-control my-3" onChange={e => setFirstName(e.target.value)} required/>
+                        <input type="text" placeholder="Last Name" value={lastName} className="form-control my-3" onChange={e => setLastName(e.target.value)} required/>
+                        <input type="email" placeholder="Email" value={email} className="form-control my-3" onChange={e => setEmail(e.target.value)} required/>
+                        <input type="text" placeholder="Username" value={username} className="form-control my-3" onChange={e => setUsername(e.target.value)} required/>
+                        <input type="password" placeholder="Password" value={password} className="form-control my-3" onChange={e => setPassword(e.target.value)} required/>
                         <label className='fs-5'>Profile Picture:</label>
-                        <input type="file" className="form-control my-3" accept="image/*" onChange={e => setFile(e.target.files[0])}/>
+                        <input type="file" className="form-control my-3" accept="image/*" onChange={e => setFile(e.target.files[0])} required/>
                         <button className="btn custom-bg my-3">Register</button>
                         <p className="text-center">Already have an account? <a href="/login">Login</a></p>
                     </form>

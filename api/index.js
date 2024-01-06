@@ -8,9 +8,9 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10; 
 const jwt = require('jsonwebtoken');
 const secretKey = 'secretKeybutlikeSUPERSECRETlikeyoudontevenknow';
-const multer = require('multer');
-const uploadMiddleware = multer({dest: 'uploads/'});
 const fs = require('fs');
+
+const uploadMiddleware = require('./s3Upload');
 
 const PORT = process.env.PORT || 4000;
 
@@ -46,13 +46,7 @@ app.post('/register', uploadMiddleware.single('file'), async (req, res) => {
     let image;
 
     if(req.file){
-        const {originalname} = req.file;
-        const parts = originalname.split('.');
-        const extension = parts[parts.length - 1];
-        let path = req.file.path;
-        path = path.replace(/\\/g, '/');
-        image =  path + '.' + extension;
-        fs.renameSync(path, image);
+        image = req.file.location; //s3
     }
 
     const {username, password, firstName, lastName, email} = req.body;
@@ -105,17 +99,8 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
-
-    const {originalname} = req.file;
-    const parts = originalname.split('.');
-    const extension = parts[parts.length - 1];
-    let path = req.file.path;
-    path = path.replace(/\\/g, '/');
-    const newPath = path + '.' + extension;
-    fs.renameSync(path, newPath);
-
     const {title, description, content} = req.body;
-    const image =  newPath;
+    const image =  req.file.location;
     const {token} = req.body;
 
     jwt.verify(token, secretKey, async (err, decoded) => {
@@ -125,6 +110,8 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
             const {id} = decoded;
             try{
                 const postDoc = await PostModel.create({title, description, content, image, author: id});
+                //send the image to s3
+                
                 const updatedUser = await UserModel.findByIdAndUpdate(id, {$push: {userPosts: postDoc._id}}, {new: true});
                 if(!updatedUser){
                     throw new Error('Unable to add post to user');
@@ -166,13 +153,7 @@ app.get('/edit/:id', async (req, res) => {
 app.post('/edit', uploadMiddleware.single('file'), async (req, res) => {
     let newPath = null;
     if(req.file){
-        const {originalname} = req.file;
-        const parts = originalname.split('.');
-        const extension = parts[parts.length - 1];
-        let path = req.file.path;
-        path = path.replace(/\\/g, '/');
-        let newPath = path + '.' + extension;
-        fs.renameSync(path, newPath);
+        newPath = req.file.location;
     }
     const {token} = req.body;  
     jwt.verify(token, secretKey, async (err, decoded) => {

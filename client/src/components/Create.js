@@ -9,7 +9,7 @@ const Create = () => {
   const [content, setContent] = useState('');
   const [file, setFile] = useState('');
   const [error, setError] = useState('');
-  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const token = localStorage.getItem('token') ? localStorage.getItem('token') : '';  
 
   const createNewPost = async (e) => {
     e.preventDefault();
@@ -21,6 +21,7 @@ const Create = () => {
       data.set('content', content);
       data.set('file', file);
       data.set('token', token);
+      console.log(token);
 
       const response = await fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/post', {
         method: 'POST',

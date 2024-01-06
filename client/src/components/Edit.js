@@ -9,7 +9,7 @@ const Edit = () => {
     const [content, setContent] = useState('');
     const [file, setFile] = useState('');
     const [error, setError] = useState('');
-    const [token, setToken] = useState(localStorage.getItem('token'));
+    const token = useState(localStorage.getItem('token') || '');
 
     useEffect(() => {
         fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/post/' + id).then(res => 

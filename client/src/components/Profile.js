@@ -44,7 +44,7 @@ const Profile = () => {
         user ? (
           <div className="container-fluid d-flex justify-content-center align-items-center flex-column my-5 w-75">
               <div className="d-flex justify-content-center align-items-center flex-row">
-                <img src={'https://bloggyhendu-1dfd9d591b8b.herokuapp.com/' + user.profilePicture} className='img-fluid rounded-circle mx-3' style={{height: '125px', width: '125px'}} alt={user.username} />
+                <img src={user.profilePicture} className='img-fluid rounded-circle mx-3' style={{height: '125px', width: '125px'}} alt={user.username} />
                 <div className='d-flex flex-column'>
                   <h1 className='my-3'>{user.username}'s Profile</h1>
                   <div className='d-flex flex-row'>
