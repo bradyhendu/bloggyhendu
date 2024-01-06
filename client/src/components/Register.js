@@ -23,9 +23,7 @@ const Register = () => {
         data.set('firstName', firstName);
         data.set('lastName', lastName);
         data.set('email', email);
-        if (file) {
-            data.set('file', file);
-        }
+        data.set('file', file);
 
         const response = await fetch('https://bloggyhendu-1dfd9d591b8b.herokuapp.com/register', {
             method: 'POST',

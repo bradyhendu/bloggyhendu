@@ -43,11 +43,7 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 
 
 app.post('/register', uploadMiddleware.single('file'), async (req, res) => {
-    let image;
-
-    if(req.file){
-        image = req.file.location; //s3
-    }
+    let image = req.file.location;
 
     const {username, password, firstName, lastName, email} = req.body;
     try{
