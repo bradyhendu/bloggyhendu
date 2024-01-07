@@ -183,6 +183,7 @@ app.post('/edit', uploadMiddleware.single('file'), async (req, res) => {
 app.delete('/delete/:id', async (req, res) => {
     const {token} = req.body;
     const {id} = req.params;
+
     jwt.verify(token, secretKey, async (err, decoded) => {
         if(err){
             res.status(401).json({message: 'Invalid token'});
