@@ -208,7 +208,6 @@ app.delete('/delete/:id', async (req, res) => {
 
 app.get('/user/:username', async (req, res) => {
     const {username} = req.params;
-    console.log(username);
     try{
         const userDoc = await UserModel.findOne({username}) .populate({
             path: 'userPosts',
