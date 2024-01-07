@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 const Delete = () => {
   const { id } = useParams();
   const [error, setError] = useState('');
-  const token = useState(localStorage.getItem('token') || '');
+  const token = localStorage.getItem('token') ? localStorage.getItem('token') : '';  
 
   const deletePost = async (e) => {
     e.preventDefault();
