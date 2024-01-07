@@ -55,7 +55,7 @@ const Profile = () => {
               </div>
               {tokenUsername === username &&
                 <div className="d-flex justify-content-center align-items-center flex-row">
-                  <button className="btn btn-secondary my-3 mx-2" onClick={() => window.location.href = '/profile/edit/' + username}>Edit Profile</button>
+                  {/*TODO: ADD EDIT PROFILE*/}
                   <button className="btn btn-danger my-3 mx-2" onClick={logout}>Logout</button>
                 </div>
               }
