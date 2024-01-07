@@ -13,7 +13,8 @@ const Delete = () => {
         method: 'DELETE',
         credentials: 'include',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
         },
         body: JSON.stringify({token})
       });
@@ -37,7 +38,7 @@ const Delete = () => {
       </div>
       {error && 
         <div className="alert alert-danger my-3" role="alert" id='error'>
-          {error}
+      {error}
         </div>
       }
     </div>
